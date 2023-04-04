@@ -1,0 +1,27 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowS3Access",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::ap-southeast-2-test",
+                "arn:aws:s3:::ap-southeast-2-test/*"
+            ]
+        },
+        {
+            "Sid": "AllowKmsDecrypt",
+            "Effect": "Allow",
+            "Action": [
+                "kms:Decrypt"
+            ],
+            "Resource": [
+                "arn:aws:kms:ap-southeast-2:YOUR_ACCOUNT_ID:key/12345"
+            ]
+        }
+    ]
+}
