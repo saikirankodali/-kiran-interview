@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Retrieve EC2 instances') {
+            steps {
+                // Download the JSON file from the GitHub repository
+                sh 'curl https://raw.githubusercontent.com/BGLCorp/devops-interview-tests/main/ec2-describe-instances.json -o ec2-describe-instances.json'
+            }
+        }
+
+        stage('Parse JSON') {
+            steps {
+                // Parse the JSON file using jq and filter for instances launched before 2022-04-12T13:00:00
+                script {
+                    def INSTANCE_IDS = sh (
+                        script: "jq '.Reservations[].Instances[] | select(.LaunchTime < \"2022-04-12T13:00:00\").InstanceId' ec2-describe-instances.json",
+                        returnStdout: true
+                    ).trim()
+                    // Save the InstanceIds in an environment variable
+                    env.INSTANCE_IDS = INSTANCE_IDS
+                }
+            }
+        }
+
+        stage('Print InstanceIds') {
+            steps {
+                // Print the InstanceIds
+                echo "InstanceIds launched before 2022-04-12T13:00:00:"
+                echo env.INSTANCE_IDS
+            }
+        }
+    }
+}
