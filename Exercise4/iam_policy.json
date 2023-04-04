@@ -20,7 +20,7 @@
                 "kms:Decrypt"
             ],
             "Resource": [
-                "arn:aws:kms:ap-southeast-2:YOUR_ACCOUNT_ID:key/12345"
+                "arn:aws:kms:ap-southeast-2:883360539205:key/12345"
             ]
         }
     ]
